@@ -1,0 +1,62 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+
+public class Main {
+
+    public WebDriver driver = null;
+    Properties properties = new Properties();
+
+
+
+
+    @BeforeTest
+    public void login() throws IOException {
+
+        //Connect properties file for data driven tests.
+
+        FileInputStream file = new FileInputStream("//Users//macbook//IdeaProjects//WebElements//src//dataDriven.properties");
+        properties.load(file);
+
+
+        //Option to choose browser from the properties file.
+        if (properties.getProperty("browser").equals("Chrome")) {
+            System.setProperty("webdriver.chrome.driver", "/Users/macbook/Downloads/Selenium files/chromedriver");
+            driver = new ChromeDriver();
+        } else if (properties.getProperty("browser").equals("Firefox")) {
+            System.setProperty("webdriver.gecko.driver", "/Users/macbook/Documents/Selenium/Browser Drivers/Firefox GecoDeriver/geckodriver");
+            driver = new FirefoxDriver();
+        }
+
+
+        //Option to chose url from the properties file.
+        driver.get(properties.getProperty("url"));
+    }
+
+
+    @Test
+    public void test (){
+        driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).sendKeys(properties.getProperty("Username"));
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys(properties.getProperty("Password"));
+        driver.findElement(By.xpath("//*[@name = 'event_login']")).click();
+
+        //If login and password correct, website will change go to another page
+        Assert.assertEquals(driver.getCurrentUrl(), properties.getProperty("TargetUrl"));
+    }
+
+
+    @AfterTest
+    public void end() {
+        driver.quit();
+    }
+
+}
