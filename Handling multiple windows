@@ -1,0 +1,35 @@
+import junit.framework.TestCase;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+
+public class AppTest extends TestCase
+{
+    @org.junit.Test
+    public void test() throws InterruptedException {
+
+        System.setProperty("webdriver.gecko.driver", "/Users/macbook/Documents/Selenium/Browser Drivers/Firefox GecoDeriver/geckodriver");
+        WebDriver driver = new FirefoxDriver();
+        driver.get("https://www.sony.com/electronics/playstation");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+        driver.findElement(By.cssSelector(".btn.pct-n-0-url.lt3")).click();
+        Thread.sleep(5000);
+
+        Set<String> ids = driver.getWindowHandles();
+        Iterator <String > it = ids.iterator();
+        String parentid = it.next();
+        String childid = it.next();
+
+        driver.switchTo().window(childid);
+        Assert.assertTrue(driver.findElement(By.cssSelector(".ps4-ds4")).isDisplayed());
+        driver.switchTo().window(parentid);
+        driver.quit();
+
+    }
+}
