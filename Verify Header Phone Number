@@ -1,0 +1,26 @@
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+
+
+public class AppTest extends TestCase
+{
+    @org.junit.Test
+    public void test(){
+        String expectedTextAlert = "+44 (208) 068 7191";
+        System.setProperty("webdriver.gecko.driver", "/Users/macbook/Documents/Selenium/Browser Drivers/Firefox GecoDeriver/geckodriver");
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+        //Test - verify header phone number
+        driver.get("http://www.airtickets.com/");
+        driver.findElement(By.id("searchButton")).click();
+        driver.findElement(By.id("searchButton")).click();
+        String actualTextAlert = driver.findElement(By.cssSelector(".very_top_header_tel")).getText();
+       Assert.assertEquals(expectedTextAlert, actualTextAlert);
+        driver.quit();
+    }
+}

@@ -1,0 +1,62 @@
+// Task: Find rows with expected text and print all info from that rows.
+
+import junit.framework.TestCase;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.List;
+
+
+public class AppTest extends TestCase
+{
+    @org.junit.Test
+    public void test() throws InterruptedException {
+
+        //Will find and print info from rows, which contain this text
+        String expectedText = "1952";
+
+
+        System.setProperty("webdriver.gecko.driver", "/Users/macbook/Documents/Selenium/Browser Drivers/Firefox GecoDeriver/geckodriver");
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().window().maximize();
+        driver.get("https://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Movies");
+
+        //Creating List with all Rows
+        WebElement top100MoviesTable = driver.findElement(By.cssSelector(".sortable.wikitable.jquery-tablesorter"));
+        List<WebElement> allRows = top100MoviesTable.findElements(By.tagName("tr"));
+        int allRowsNum =  allRows.size();
+
+
+
+        //Iterating rows
+        for(int j = 0; j < allRowsNum; j++){
+            WebElement eachRow = allRows.get(j);
+            List<WebElement> eachColumn = eachRow.findElements(By.tagName("td"));
+
+            int columnsSize = eachColumn.size();
+
+
+            for(int i = 0; i < columnsSize; i++){
+               String actualtText = eachColumn.get(i).getText();
+
+
+                //Find row with expectedText
+                if(actualtText.equals(expectedText)){
+
+                    //Print all information from rows, that contains expectedText
+                    for(int m = 0; m < columnsSize; m++) {
+                        String actualtNextText = eachColumn.get(m).getText();
+                        System.out.println(actualtNextText);
+
+                    }
+                }
+
+                    }
+
+                }
+
+        driver.quit();
+    }
+}

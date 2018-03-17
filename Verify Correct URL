@@ -1,0 +1,42 @@
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.concurrent.TimeUnit;
+
+
+public class AppTest extends TestCase
+{
+    @org.junit.Test
+    public void test(){
+
+        String expectedUrl = "http://http://www.airtickets.com";
+
+        System.setProperty("webdriver.gecko.driver", "/Users/macbook/Documents/Selenium/Browser Drivers/Firefox GecoDeriver/geckodriver");
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("http://www.airtickets.com/");
+
+        //From and To
+        driver.findElement(By.xpath("//input[@id='from']")).clear();
+        driver.findElement(By.xpath("//input[@id='from']")).sendKeys("San Diego");
+        driver.findElement(By.xpath("//input[@id='to']")).clear();
+        driver.findElement(By.xpath("//input[@id='to']")).sendKeys("Odessa");
+        driver.findElement(By.xpath("//input[@id='to']")).click();
+
+        //Select date
+        driver.findElement(By.id("departureDate")).click();
+        driver.findElement(By.xpath("//*[@id='datepicker']/div[2]/div[1]/table/tbody/tr[4]/td[3]/a")).click();
+        driver.findElement(By.xpath("//*[@id='datepicker']/div[2]/div[1]/table/tbody/tr[4]/td[5]/a")).click();
+
+
+        //Next page
+        driver.findElement(By.id("searchButton")).click();
+        driver.findElement(By.xpath(".//a[@href='http://http://www.airtickets.com']")).click();
+        String actualURL = driver.getCurrentUrl();
+
+        Assert.assertEquals(expectedUrl, actualURL);
+    }
+}

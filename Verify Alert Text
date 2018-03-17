@@ -1,0 +1,28 @@
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+
+
+public class AppTest extends TestCase
+{
+    @org.junit.Test
+    public void test(){
+        String expectedTextAlert = "Please select a destination airport";
+
+
+        System.setProperty("webdriver.gecko.driver", "/Users/macbook/Documents/Selenium/Browser Drivers/Firefox GecoDeriver/geckodriver");
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+        //Test - verify text in pop-up alert message
+        driver.get("http://www.airtickets.com/");
+        driver.findElement(By.id("searchButton")).click();
+        driver.findElement(By.id("searchButton")).click();
+        String actualTextAlert = driver.findElement(By.xpath("//*[@class='popup_message_content']")).getText();
+        Assert.assertEquals(expectedTextAlert, actualTextAlert);
+        driver.quit();
+    }
+}

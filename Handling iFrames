@@ -1,0 +1,66 @@
+import junit.framework.TestCase;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.Iterator;
+import java.util.Set;
+
+public class AppTest extends TestCase
+{
+    @org.junit.Test
+    public void test() throws InterruptedException {
+
+
+        String expectedURL = "https://www.tumblr.com/register/follow/sony";
+
+        System.setProperty("webdriver.gecko.driver", "/Users/macbook/Documents/Selenium/Browser Drivers/Firefox GecoDeriver/geckodriver");
+        WebDriver driver = new FirefoxDriver();
+        driver.get("https://www.sony.com/");
+
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("scroll(0, 4500);");
+
+
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(By.xpath(".//*[@class = 'footer-social footer-social-tumblr']"))).build().perform();
+
+
+        //Switching to iframe that contains follow-button.
+        int iframes = driver.findElements(By.tagName("iframe")).size();
+
+        for(int i = 0; i < iframes; i++){
+            driver.switchTo().frame(i);
+            int elemNum = driver.findElements(By.id("follow-button")).size();
+
+            if(elemNum > 0){
+                driver.findElement(By.id("follow-button")).click();
+                break;
+            }
+            driver.switchTo().defaultContent();
+        }
+
+
+        //Switching to child window.
+        Set<String> ids = driver.getWindowHandles();
+        Iterator<String > iter = ids.iterator();
+        String parentid = iter.next();
+        String childid = iter.next();
+        driver.switchTo().window(childid);
+
+
+        //Waiting for page uploading.
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//h1[@id='logo']")));
+
+
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(expectedURL,currentUrl);
+        
+        driver.quit();
+    }
+}
