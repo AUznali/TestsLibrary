@@ -1,0 +1,92 @@
+package MainPage;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+import org.openqa.selenium.WebDriver;
+
+
+/**
+ * Created by macbook on 9/1/17.
+ */
+public class MenuHeader {
+
+
+    WebDriver driver;
+
+
+    @BeforeSuite
+    public void Driver(){
+        System.setProperty("webdriver.chrome.driver", "/Users/macbook/Downloads/Selenium files/chromedriver");
+        WebDriver driver = new ChromeDriver();
+        this.driver = driver;
+}
+
+    @BeforeMethod
+    public void OpenURL (){
+        driver.get("https://www.medimpact.com/");
+        driver.manage().window().maximize();
+    }
+
+
+    @Test
+    @Parameters({"ExpectedMenuItem1", "ExpectedMenuItem2", "ExpectedMenuItem3", "ExpectedMenuItem4", "ExpectedMenuItem5"})
+    public void MenuText (String ExpectedMenuItem1, String ExpectedMenuItem2, String ExpectedMenuItem3, String ExpectedMenuItem4, String ExpectedMenuItem5) {
+        //Take actual Menu Items
+        String actualMenuItem1 = driver.findElement(By.xpath(".//a[contains(text(),'Home')]")).getText();
+        String actualMenuItem2 = driver.findElement(By.xpath(".//a[contains(text(),'About')]")).getText();
+        String actualMenuItem3 = driver.findElement(By.xpath(".//a[contains(text(),'Members')]")).getText();
+        String actualMenuItem4 = driver.findElement(By.xpath("//ul[@class = 'navbar_item']/li/a[contains(text(),'Med')]")).getText();
+        String actualMenuItem5 = driver.findElement(By.xpath(".//a[contains(text(),'Contact')]")).getText();
+
+
+        //Verify that actual same as expected
+        Assert.assertEquals(actualMenuItem1, ExpectedMenuItem1);
+        Assert.assertEquals(actualMenuItem2, ExpectedMenuItem2);
+        Assert.assertEquals(actualMenuItem3, ExpectedMenuItem3);
+        Assert.assertEquals(actualMenuItem4, ExpectedMenuItem4);
+        Assert.assertEquals(actualMenuItem5, ExpectedMenuItem5);
+    }
+
+        @Test
+        @Parameters({"ExpectedMenuURL1", "ExpectedMenuURL2", "ExpectedMenuURL3", "ExpectedMenuURL4", "ExpectedMenuURL5"})
+        public void MenuURLs (String ExpectedMenuURL1, String ExpectedMenuURL2, String ExpectedMenuURL3, String ExpectedMenuURL4, String ExpectedMenuURL5){
+
+
+            //Get actual URLs
+            driver.findElement(By.xpath(".//a[contains(text(),'Home')]")).click();
+            String actualMenuURL1 = driver.getCurrentUrl();
+
+            driver.findElement(By.xpath(".//a[contains(text(),'About')]")).click();
+            String actualMenuURL2 = driver.getCurrentUrl();
+
+            driver.findElement(By.xpath(".//a[contains(text(),'Members')]")).click();
+            String actualMenuURL3 = driver.getCurrentUrl();
+
+            driver.findElement(By.xpath("//ul[@class = 'navbar_item']/li/a[contains(text(),'Med')]")).click();
+            String actualMenuURL4 = driver.getCurrentUrl();
+
+            driver.findElement(By.xpath(".//a[contains(text(),'Contact')]")).click();
+            String actualMenuURL5 = driver.getCurrentUrl();
+
+
+            //Verify that actual same as expected
+            Assert.assertEquals(actualMenuURL1, ExpectedMenuURL1);
+            Assert.assertEquals(actualMenuURL2, ExpectedMenuURL2);
+            Assert.assertEquals(actualMenuURL3, ExpectedMenuURL3);
+            Assert.assertEquals(actualMenuURL4, ExpectedMenuURL4);
+            Assert.assertEquals(actualMenuURL5, ExpectedMenuURL5);
+
+        }
+
+
+
+
+    @AfterSuite
+    public void quiteDriver(){
+        driver.quit();
+    }
+
+
+}
