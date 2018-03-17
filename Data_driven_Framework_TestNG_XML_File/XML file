@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<suite name = "Auto Tests">
+    <test name = "Auto TestCases">
+
+        <!-- Text Value for each menu item (Header menu) -->
+        <parameter name = "ExpectedMenuItem1" value = "Home"/>
+        <parameter name = "ExpectedMenuItem2" value = "About"/>
+        <parameter name = "ExpectedMenuItem3" value = "Members"/>
+        <parameter name = "ExpectedMenuItem4" value = "MedImpact Direct"/>
+        <parameter name = "ExpectedMenuItem5" value = "Contact"/>
+
+        <!-- Text Value for each menu URL (Header menu) -->
+        <parameter name = "ExpectedMenuURL1" value = "https://www.medimpact.com/home"/>
+        <parameter name = "ExpectedMenuURL2" value = "https://www.medimpact.com/about"/>
+        <parameter name = "ExpectedMenuURL3" value = "https://www.medimpact.com/members"/>
+        <parameter name = "ExpectedMenuURL4" value = "https://www.medimpact.com/medimpact-direct"/>
+        <parameter name = "ExpectedMenuURL5" value = "https://www.medimpact.com/contact"/>
+
+        <classes>
+            <class name = "MainPage.MenuHeader" />
+        </classes>
+
+    </test>
+</suite>
